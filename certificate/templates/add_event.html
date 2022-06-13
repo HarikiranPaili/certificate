@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Add Event</h1>
+<form action="add_event" method="post">
+		 {% for message in messages %}
+           {{ message }}
+         {% endfor %}
+        {% csrf_token %}
+         <p></p>
+          <input type="text" name="event_name" placeholder="Event Name">
+          <input type="date" name="event_start_date" placeholder="event_start_date" >
+          <input type="date" name="event_end_date" placeholder="event_end_date">
+          <input type="text" name="organizer" placeholder="organizer">
+          <br>
+          <br>
+          <input type="text" name="Signatories_name_1" placeholder="Signatories_name_1" required>
+          <input type="file" name="digital_Signatures_1" placeholder="digital_Signatures_1">
+          <input type="text" name="Signatories_name_2" placeholder="Signatories_name_2" required>
+          <input type="file" name="digital_Signatures_2" placeholder="digital_Signatures_2">
+          <input type="text" name="Signatories_name_3" placeholder="Signatories_name_3">
+          <input type="file" name="digital_Signatures_3" placeholder="digital_Signatures_3">
+
+        <br>
+    <input type="submit">
+</form>
+
+
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+				 {% for message in messages %}
+					                  {{ message }}
+					                 {% endfor %}
+
+<form method="POST" class="post-form" action="/update/{{event_info.event_name}}">
+    {% csrf_token %}
+            <input type="text" name="event_name" value="{{ event_info.event_name }}"/><br>
+            <input type="text" name="event_start_date" value="{{ event_info.event_start_date }}"/>
+            <input type="text" name="event_end_date" value="{{ event_info.event_end_date }}"/>
+            <input type="text" name="organizer" value="{{ event_info.organizer }}"/>
+<input type="submit">
+    </form>
+</body>
+</html>

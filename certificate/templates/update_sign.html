@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+				 {% for message in messages %}
+					                  {{ message }}
+					                 {% endfor %}
+
+<form method="POST" class="post-form" action="/update_sign/{{event_info.id}}">
+    {% csrf_token %}
+            <input type="text" name="Signatories_name" value="{{ event_info.Signatories_name }}"/><br>
+            <input type="file" name="digital_Signatures" value="{{ event_info.digital_Signatures }}" />
+<input type="submit">
+    </form>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<h2>Preview or Edit</h2>
+<h5>
+     {% for message in messages %}
+					                  {{ message }}
+					                 {% endfor %}
+</h5>
+      <form method="POST" action="preview">
+                    {% csrf_token %}
+          <h5>Select Event Name</h5>
+                      <select name="event_name" required>
+                        <option value="">---------</option>
+                          {% for form in event_info %}
+                           <option value="{{ form.event_name }}">{{ form.event_name }}</option>
+                          {% endfor %}
+                      </select>
+                   <input type="submit" name="Submit">
+                 </form>
+    <br>
+<br>
+                          {% for form in event_details %}
+                           {{ form.event_name }}
+                           {{ form.event_start_date }}
+                           {{ form.event_end_date }}
+                           {{ form.organizer }}
+              <a href="{% url 'edit_event' form.id %}">Edit</a>
+
+
+<p>Signs</p>
+                          {% for form in event_signs %}
+                           {{ form.Signatories_name }}
+<img src="{{ form.digital_Signatures.url }}" alt="{{ form.digital_Signatures }}">
+
+              <a href="{% url 'edit_sign' form.id %}">Edit</a>
+<br>
+                          {% endfor %}
+                          {% endfor %}
+
+
+</div>
+
+
+
+</body>
+</html>
