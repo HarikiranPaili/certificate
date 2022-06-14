@@ -2,10 +2,16 @@ from django.shortcuts import render,redirect
 from .models import *
 from django.contrib import messages
 from .forms import *
+from .resources import PersonResource
+from tablib import Dataset
 from django.db.models import Q
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
 import openpyxl
 # Create your views here.
 
+#@login_required(login_url='login')
 def add_event(request):
     if request.method == 'POST':
         # adding event
@@ -42,12 +48,25 @@ def add_event(request):
         for i in players:
             i.event_name = event_name
             i.save()
-        else:
-            pass
+        dataset = Dataset()
+        new_persons = request.FILES['myfile']
+        imported_data = dataset.load(new_persons.read(), format='xlsx')
+        for data in imported_data:
+            value = Players(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+                data[4],
+                data[5],
+
+            )
+            value.save()
         messages.info(request,'Event added Succesfully')
         return redirect('preview')
     return render(request,'add_event.html',)
 
+#@login_required(login_url='login')
 def preview(request,):
     event_info = Event_details.objects.all()
     if request.method == 'POST':
@@ -58,14 +77,17 @@ def preview(request,):
         return render(request, 'preview.html', context)
     return render(request,'preview.html',{'event_info':event_info})
 
+#@login_required(login_url='login')
 def edit_event(request,pk):
     event = Event_details.objects.get(id=pk)
     return render(request,'update.html',{'event_info':event})
 
+#@login_required(login_url='login')
 def edit_sign(request,pk):
     sign = Signs.objects.get(id=pk)
     return render(request,'update_sign.html',{'event_info':sign})
 
+#@login_required(login_url='login')
 def update_event(request,event_name):
     event_info = Event_details.objects.get(event_name=event_name)
     signs = Signs.objects.filter(event_name=event_name)
@@ -93,6 +115,7 @@ def update_event(request,event_name):
 
     return render(request,'update.html',)
 
+#@login_required(login_url='login')
 def update_sign(request,pk):
     signs = Signs.objects.get(id=pk)
     if request.method == 'POST':
@@ -116,4 +139,10 @@ def download(request):
     return render(request,'cer.html')
 
 
+def export(request):
+    person_resource = PersonResource()
+    dataset = person_resource.export()
+    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="persons.xls"'
+    return response
 

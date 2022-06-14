@@ -7,7 +7,7 @@
 <body>
 
 <h1>Add Event</h1>
-<form action="add_event" method="post">
+<form action="add_event" method="post" enctype="multipart/form-data">
 		 {% for message in messages %}
            {{ message }}
          {% endfor %}
@@ -27,6 +27,8 @@
           <input type="file" name="digital_Signatures_3" placeholder="digital_Signatures_3">
 
         <br>
+        <input type="file" name="myfile">
+
     <input type="submit">
 </form>
 
